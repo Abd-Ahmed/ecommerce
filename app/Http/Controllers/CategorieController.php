@@ -7,32 +7,42 @@ use Illuminate\Http\Request;
 
 class CategorieController extends Controller
 {
+
+
     public function index()
 {
 $categories = Categorie::all()->toArray();
 return array_reverse($categories);
 }
+
+
 public function store(Request $request)
 {
 $categorie = new Categorie([
 'nomcategorie' => $request->input('nomcategorie'),
 'imagecategorie' => $request->input('imagecategorie')
 ]);
-$categorie->save();
 
-return response()->json('Catégorie créée !');
+
+$categorie->save();
+return response()->json($categorie, 201);
 }
+
+
 public function show($id)
 {
 $categorie = Categorie::find($id);
 return response()->json($categorie);
 }
+
+
 public function update(Request $request, $id)
 {
 $categorie = Categorie::find($id);
 $categorie->update($request->all());
-return response()->json('Catégorie MAJ !');
+return response()->json($categorie, 200);
 }
+
 
 public function destroy($id)
 {

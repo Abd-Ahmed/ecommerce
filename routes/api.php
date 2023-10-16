@@ -3,6 +3,10 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CategorieController;
+use App\Http\Controllers\ScategorieController;
+use App\Http\Controllers\ArticleController;
+
+
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -13,10 +17,22 @@ use App\Http\Controllers\CategorieController;
 | be assigned to the "api" middleware group. Make something great!
 |
 */
+
+Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
+    return $request->user();
+});
+
 Route::middleware('api')->group(function () {
-    Route::resource('categories', CategorieController::class);
+  Route::resource('categories', CategorieController::class);
+  });
+
+  Route::middleware('api')->group(function () {
+    Route::resource('scategories', ScategorieController::class);
     });
 
-//Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-  //  return $request->user();
-//});
+    Route::get('/scat/{idcat}',
+    [ScategorieController::class,'showSCategorieByCAT']);
+
+    Route::middleware('api')->group(function () {
+      Route::resource('article', ArticleController::class);
+      });
